@@ -2,7 +2,7 @@
 
 	<!-- Technical - Help !-->
 	<command cmdPattern="(?:/h|/help|/\?)" argsPattern="" class="com.ankamagames.wakfu.client.chat.console.command.HelpCommand" name="/help" help="Help"/>
-	<command cmdPattern="(?:/ping|pm)" argsPattern="(.*)" class="PluginManager" name="/ping" help="Ping"/>
+	<command cmdPattern="(?:/ping|/pm)" argsPattern="(.*)" class="PluginManager" name="/ping" help="Ping"/>
 	<command cmdPattern="(?:/whois)" argsPattern="(.*)" autoCompletion="true"
 			 class="com.ankamagames.wakfu.client.chat.console.command.WhoisCommand" name="/whois" help="Whois"/>
 	<command cmdPattern="(?:/console)" argsPattern="" class="com.ankamagames.wakfu.client.console.command.debug.ConsoleCommand" name="/console" help="Console"/>

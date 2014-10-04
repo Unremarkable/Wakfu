@@ -87,6 +87,10 @@ public class Miner implements Plugin {
 			}
 		}
 		
+		public dJN getTarget() {
+			return core().ahB();
+		}
+		
 		public static cjH actor() {
 			return core().ahu();
 		}
@@ -106,6 +110,15 @@ public class Miner implements Plugin {
 		public static aCh getCraftingInfo() {
 			return core().aXz();
 		}
+		
+		public static DE getOrientation() {
+			return actor().Q();
+		}
+		
+		// not sure how this is different than Pi();
+		public static deO getPoint3D() {
+			return actor().awR();
+		}
 	}
 	
 	@Override
@@ -122,9 +135,9 @@ public class Miner implements Plugin {
 			Math.abs(a.getWorldX() - b.getWorldX())
 		+	Math.abs(a.getWorldY() - b.getWorldY());
 	}
+	
+	private void goMine() {
 
-	@Override
-	public void exec(String args) {
 		aeB manager = aeB.arW();
 		NodeList nodelist = new NodeList();
 		manager.m(nodelist);	// copy into nodelist
@@ -155,7 +168,16 @@ public class Miner implements Plugin {
 				}
 			}*/
 		}
-		
+	}
+
+	@Override
+	public void exec(String args) {
+		deO point3d = new deO(Player.actor().awR());
+		System.out.println("awR(): " + Player.actor().awR());
+		point3d.n(Player.actor().Q());
+		System.out.println("Q(): " + Player.actor().Q());
+		cAI path = Player.actor().c(point3d, false, true);
+		Player.actor().a(path, true);
 	}
 
 	@Override

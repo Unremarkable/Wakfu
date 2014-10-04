@@ -1,9 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 
 public class PluginManager 
@@ -23,13 +25,25 @@ implements dtO {
 		}
 	}
 	
-	private static File PluginSource = new File("D:/games/Wakfu/Plugins/");
+	//private static File PluginSource = new File("D:/Documents/GitHub/Wakfu/Wakfu/Plugins/bin/");
 
 	private PluginClassLoader       PluginClassLoader;
 	private HashMap<String, Plugin> Plugins           = new HashMap<String, Plugin>();
+	
+	public String readPropertiesForPluginSource() {
+		Properties properties = new Properties(); 
+		try {
+			properties.load(new FileReader("pluginmanager.properties"));
+			return properties.getProperty("PluginSource");
+		} catch (IOException e) {
+		}
+		return "/plugins/";
+	}
 
 	@Override
 	public void a(czg arg0, agu arg1, ArrayList<String> args) {
+		Util.print("Plugin Manager");
+		System.out.println("Plugin Manager");
 		String help =
 			"Proper usage:"
 		+	"/pm reload"
@@ -45,7 +59,11 @@ implements dtO {
 					plugin.unload();
 				Plugins.clear();
 
-				PluginClassLoader = new PluginClassLoader(PluginSource);
+				String location = readPropertiesForPluginSource();
+				Util.print(location);
+				System.out.println(location);
+				File source = new File(location);
+				PluginClassLoader = new PluginClassLoader(source);
 				
 				try {
 					for (Class<?> c : PluginClassLoader.loadAll()) {
