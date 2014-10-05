@@ -15,6 +15,9 @@ public class TestAliasingWrapper {
 			
 		@Alias(methodName = "someMethod")
 		public WrappedClassA wrappedMethod(WrappedClassA foo);
+		
+		@Alias(methodName = "getInstance")
+		public WrappedClassB getInstance();
 	}
 	
 	public static class CrypticBaseClassA{
@@ -24,8 +27,16 @@ public class TestAliasingWrapper {
 	}
 	
 	public static class CrypticBaseClassB{
+		static CrypticBaseClassB instance;
 		public CrypticBaseClassA someMethod(CrypticBaseClassA foo){
 			return foo;
+		}
+		
+		public static CrypticBaseClassB getInstance(){
+			if(instance == null)			{
+				instance = new CrypticBaseClassB();
+			}
+			return instance;
 		}
 	}
 	
@@ -39,4 +50,12 @@ public class TestAliasingWrapper {
 		
 		System.out.println(wrapperA.wrappedMethod(wrapperA, wrapperB));
 	}
+
+	@Test
+	public void testStatic() throws InstantiationException, IllegalAccessException{
+		WrappedClassB wrapperB = AliasingInvocationHandler.createWrapper(WrappedClassB.class, null);
+		
+		System.out.println(wrapperB.getInstance());
+	}
+	
 }

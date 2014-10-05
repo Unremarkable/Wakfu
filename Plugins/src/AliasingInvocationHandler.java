@@ -23,28 +23,33 @@ public class AliasingInvocationHandler implements InvocationHandler {
 		Alias methodAlias = method.getAnnotation(Alias.class);
 		if (classAlias != null && methodAlias != null) {
 			Class<?> baseClass = classAlias.clazz();
-			Object parameters[] = new Object[args.length];
-			Class<?> parameterTypes[] = new Class[args.length];
-
-			for (int i = 0; i < args.length; i++) {
-				Class<?> paramType = method.getParameterTypes()[i];
-				Alias paramAlias = paramType.getAnnotation(Alias.class);
-				if (paramAlias != null) {
-
-					parameterTypes[i] = paramAlias.clazz();
-					if (args[i] != null && isAliasingProxy(args[i])) {
-						parameters[i] = unwrapProxy(args[i]);
+			
+			Object parameters[] = null;
+			Class<?> parameterTypes[] = null;
+			
+			if(args != null){
+				parameters = new Object[args.length];
+				parameterTypes= new Class[args.length];
+	
+				for (int i = 0; i < args.length; i++) {
+					Class<?> paramType = method.getParameterTypes()[i];
+					Alias paramAlias = paramType.getAnnotation(Alias.class);
+					if (paramAlias != null) {
+	
+						parameterTypes[i] = paramAlias.clazz();
+						if (args[i] != null && isAliasingProxy(args[i])) {
+							parameters[i] = unwrapProxy(args[i]);
+						} else {
+							parameters[i] = args[i];
+						}
 					} else {
+						parameterTypes[i] = paramType;
 						parameters[i] = args[i];
 					}
-				} else {
-					parameterTypes[i] = paramType;
-					parameters[i] = args[i];
 				}
 			}
 
-			Method baseMethod = baseClass.getMethod(methodAlias.methodName(),
-					parameterTypes);
+			Method baseMethod = baseClass.getMethod(methodAlias.methodName(), parameterTypes);
 
 			Object returnValue = baseMethod.invoke(base, parameters);
 			Class<?> returnType = method.getReturnType();
