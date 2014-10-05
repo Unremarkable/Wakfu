@@ -4,20 +4,30 @@ import org.junit.Test;
 public class TestAliasingWrapper {
 	
 	@Alias(clazz=CrypticBaseClassA.class)
-	public static interface WrappedClassA{
-			
+	public static class WrappedClassA extends AliasingWrapper<CrypticBaseClassA>{
+		public WrappedClassA() {
+		}	
+		public WrappedClassA(CrypticBaseClassA base) {
+			super(base);
+		}
+
 		@Alias(methodName = "crypticMethod")
-		public WrappedClassA wrappedMethod(WrappedClassA foo, WrappedClassB bar);
+		public WrappedClassA wrappedMethod(WrappedClassA foo, WrappedClassB bar){return null;};
 	}
 	
 	@Alias(clazz=CrypticBaseClassB.class)
-	public static interface WrappedClassB{
-			
+	public static class WrappedClassB extends AliasingWrapper<CrypticBaseClassB>{
+		public WrappedClassB() {
+		}	
+		public WrappedClassB(CrypticBaseClassB base) {
+			super(base);
+		}
+
 		@Alias(methodName = "someMethod")
-		public WrappedClassA wrappedMethod(WrappedClassA foo);
+		public WrappedClassA wrappedMethod(WrappedClassA foo){ return null;};
 		
 		@Alias(methodName = "getInstance")
-		public WrappedClassB getInstance();
+		public static WrappedClassB getInstance(){return null;};
 	}
 	
 	public static class CrypticBaseClassA{
@@ -45,17 +55,15 @@ public class TestAliasingWrapper {
 		CrypticBaseClassA baseA = new CrypticBaseClassA();
 		CrypticBaseClassB baseB = new CrypticBaseClassB();
 		
-		WrappedClassA wrapperA = AliasingInvocationHandler.createWrapper(WrappedClassA.class, baseA);
-		WrappedClassB wrapperB = AliasingInvocationHandler.createWrapper(WrappedClassB.class, baseB);
+		WrappedClassA wrapperA = new WrappedClassA(baseA);
+		WrappedClassB wrapperB = new WrappedClassB(baseB);
 		
 		System.out.println(wrapperA.wrappedMethod(wrapperA, wrapperB));
 	}
 
 	@Test
 	public void testStatic() throws InstantiationException, IllegalAccessException{
-		WrappedClassB wrapperB = AliasingInvocationHandler.createWrapper(WrappedClassB.class, null);
-		
-		System.out.println(wrapperB.getInstance());
+		System.out.println(WrappedClassB.getInstance());
 	}
 	
 }

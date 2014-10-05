@@ -12,12 +12,10 @@ public class AliasingAspect {
     public Object aroundAdvice(
 ProceedingJoinPoint joinPoint, Alias alias)
 			throws Throwable {
-
 		Object args[] = joinPoint.getArgs();
-		Object object = joinPoint.getTarget();
-		Alias classAlias = object.getClass().getAnnotation(Alias.class);
-		
 		MethodSignature signature = (MethodSignature)joinPoint.getSignature();
+		Object object = joinPoint.getTarget();
+		Alias classAlias = (Alias)signature.getDeclaringType().getAnnotation(Alias.class);
 		
 		if (classAlias != null && alias != null) {
 			Class<?> baseClass = classAlias.clazz();
