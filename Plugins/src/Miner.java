@@ -177,7 +177,7 @@ public class Miner implements Plugin {
 		point3d.n(Player.actor().Q());
 		System.out.println("Q(): " + Player.actor().Q());
 		cAI path = Player.actor().c(point3d, false, true);
-		Player.actor().a(path, true);
+		//Player.actor().a(path, true);
 	}
 
 	@Override
