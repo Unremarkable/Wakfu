@@ -6,7 +6,7 @@ import java.lang.annotation.Inherited;
 
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR})
 public @interface Alias {
 	Class clazz() default Alias.class;
 	String methodName() default "";

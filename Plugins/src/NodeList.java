@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 class NodeList
-	extends ArrayList<aCq>
-	implements dOx<aCq>
+	extends ArrayList<ResourceNode>
+	implements dOx<ResourceNode>
 {
 	@Override
-	public boolean c(aCq arg0) {
+	public boolean c(ResourceNode arg0) {
 		return this.add(arg0);
 	}	
 }
